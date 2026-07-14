@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sneh Patel | Cybersecurity Professional</title>
+    <meta name="description" content="Sneh Patel - Cybersecurity Professional specializing in penetration testing, network security, and ethical hacking.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- AOS Animate On Scroll -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 120'%3E%3Cpath d='M50 2 L95 20 L95 55 C95 85 50 118 50 118 C50 118 5 85 5 55 L5 20 Z' fill='%230a0a0a' stroke='%2300ff41' stroke-width='4'/%3E%3Ctext x='50' y='70' text-anchor='middle' font-family='monospace' font-weight='bold' font-size='34' fill='%2300ff41'%3ESP%3C/text%3E%3C/svg%3E">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- ==================== TOOLS SECTION STYLES (merged from tools.html, scoped under #tools) ==================== -->
+    <style>
+    #tools{
+      --tk-panel:#0d1117;
+      --tk-input:#0a0e13;
+      --tk-border:#1c2632;
+      --tk-border-bright:#2a3a50;
+      --tk-green:#00ff41;
+      --tk-green-dim:#00c937;
+      --tk-amber:#ffb454;
+      --tk-red:#ff5566;
+      --tk-cyan:#59d7ff;
+      --tk-text:#c9d4e3;
+      --tk-text-dim:#7a8aa0;
+      --tk-mono:'Fira Code',Consolas,Menlo,monospace;
+    }
+    #tools .tools-sub{text-align:center;color:var(--tk-text-dim);font-size:14px;max-width:640px;margin:0 auto 18px}
+    #tools .local-badge{display:flex;width:fit-content;align-items:center;gap:8px;margin:0 auto 36px;font-family:var(--tk-mono);font-size:12px;color:var(--tk-green-dim);border:1px solid var(--tk-border-bright);padding:6px 12px;border-radius:4px;background:var(--tk-panel);text-align:center}
+    #tools .local-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--tk-green);box-shadow:0 0 8px var(--tk-green);flex-shrink:0}
+
+    /* terminal window */
+    #tools .term{background:var(--tk-panel);border:1px solid var(--tk-border);border-radius:8px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.4)}
+    #tools .term-bar{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#0a0d12;border-bottom:1px solid var(--tk-border)}
+    #tools .term-bar .dot{width:11px;height:11px;border-radius:50%}
+    #tools .term-bar .d1{background:#ff5f57}#tools .term-bar .d2{background:#febc2e}#tools .term-bar .d3{background:#28c840}
+    #tools .term-bar .title{margin-left:8px;font-family:var(--tk-mono);font-size:12px;color:var(--tk-text-dim)}
+
+    /* tabs */
+    #tools .tool-tabs{display:flex;flex-wrap:wrap;gap:0;border-bottom:1px solid var(--tk-border);background:#0a0d12}
+    #tools .tool-tabs button{background:none;border:none;border-right:1px solid var(--tk-border);padding:11px 16px;font-family:var(--tk-mono);font-size:12.5px;color:var(--tk-text-dim);cursor:pointer;white-space:nowrap;transition:color .15s,background .15s}
+    #tools .tool-tabs button:hover{color:var(--tk-text);background:rgba(0,255,65,.05)}
+    #tools .tool-tabs button.active{color:var(--tk-green);background:var(--tk-panel);box-shadow:inset 0 -2px 0 var(--tk-green)}
+    #tools .tool-pane{display:none;padding:26px}
+    #tools .tool-pane.active{display:block}
+    #tools .tool-pane .cmd{font-family:var(--tk-mono);font-size:13px;color:var(--tk-text-dim);margin-bottom:18px}
+    #tools .tool-pane .cmd .dollar{color:var(--tk-green)}
+    #tools .tool-pane code{font-family:var(--tk-mono);color:var(--tk-cyan)}
+
+    /* form elements */
+    #tools label.f{display:block;font-family:var(--tk-mono);font-size:12px;color:var(--tk-text-dim);margin:14px 0 6px;letter-spacing:.5px;text-transform:uppercase}
+    #tools input[type=text],#tools input[type=password],#tools input[type=number],#tools textarea,#tools select{
+      width:100%;background:var(--tk-input);border:1px solid var(--tk-border);border-radius:5px;color:var(--tk-text);
+      padding:10px 12px;font-family:var(--tk-mono);font-size:14px;transition:border-color .15s}
+    #tools input:focus,#tools textarea:focus,#tools select:focus{border-color:var(--tk-green);outline:none}
+    #tools textarea{resize:vertical;min-height:96px}
+    #tools input[type=range]{width:100%;accent-color:var(--tk-green)}
+    #tools .tk-btn{display:inline-block;background:transparent;border:1px solid var(--tk-green);color:var(--tk-green);
+      padding:9px 20px;border-radius:5px;font-family:var(--tk-mono);font-size:13px;cursor:pointer;margin-top:16px;margin-right:10px;transition:all .15s}
+    #tools .tk-btn:hover{background:var(--tk-green);color:#0a0a0a}
+    #tools .tk-btn.ghost{border-color:var(--tk-border-bright);color:var(--tk-text-dim)}
+    #tools .tk-btn.ghost:hover{border-color:var(--tk-text-dim);background:transparent;color:var(--tk-text)}
+    #tools .row{display:flex;gap:16px;flex-wrap:wrap}
+    #tools .row>div{flex:1;min-width:200px}
+
+    /* output */
+    #tools .out{margin-top:18px;background:var(--tk-input);border:1px solid var(--tk-border);border-left:3px solid var(--tk-green);
+      border-radius:5px;padding:14px 16px;font-family:var(--tk-mono);font-size:13px;color:var(--tk-text);white-space:pre-wrap;word-break:break-all;display:none}
+    #tools .out.show{display:block}
+    #tools .out.err{border-left-color:var(--tk-red);color:var(--tk-red)}
+    #tools .checks{list-style:none;margin-top:14px;padding:0;font-family:var(--tk-mono);font-size:13px;color:var(--tk-text)}
+    #tools .checks li{padding:3px 0}
+    #tools .checks .ok::before{content:"[\2713] ";color:var(--tk-green)}
+    #tools .checks .bad::before{content:"[\2717] ";color:var(--tk-red)}
+    #tools .meter{height:8px;background:var(--tk-input);border:1px solid var(--tk-border);border-radius:4px;margin-top:16px;overflow:hidden}
+    #tools .meter>div{height:100%;width:0;transition:width .3s,background .3s}
+    #tools .meter-label{font-family:var(--tk-mono);font-size:12px;margin-top:6px;color:var(--tk-text-dim)}
+    #tools .copy-wrap{position:relative}
+    #tools .copy-btn{position:absolute;top:8px;right:8px;background:var(--tk-panel);border:1px solid var(--tk-border-bright);
+      color:var(--tk-text-dim);font-family:var(--tk-mono);font-size:11px;padding:4px 10px;border-radius:4px;cursor:pointer}
+    #tools .copy-btn:hover{color:var(--tk-green);border-color:var(--tk-green)}
+    #tools .opts{display:flex;gap:18px;flex-wrap:wrap;margin-top:10px;font-family:var(--tk-mono);font-size:13px}
+    #tools .opts label{display:flex;align-items:center;gap:7px;cursor:pointer;color:var(--tk-text)}
+    #tools .opts input[type=checkbox]{accent-color:var(--tk-green);width:15px;height:15px}
+    #tools table.kv{width:100%;border-collapse:collapse;margin-top:16px;font-family:var(--tk-mono);font-size:13px}
+    #tools table.kv td{padding:8px 12px;border-bottom:1px solid var(--tk-border)}
+    #tools table.kv td:first-child{color:var(--tk-text-dim);width:200px}
+    #tools table.kv td:last-child{color:var(--tk-green)}
+    #tools .grade{display:inline-block;font-family:var(--tk-mono);font-weight:700;font-size:22px;border:2px solid;border-radius:6px;padding:4px 16px;margin-top:14px}
+
+    /* directory */
+    #tools .dir-head{font-family:var(--tk-mono);font-size:18px;color:#fff;margin:56px 0 6px}
+    #tools .dir-head::before{content:"[ ";color:var(--tk-green)}
+    #tools .dir-head::after{content:" ]";color:var(--tk-green)}
+    #tools .dir-sub{color:var(--tk-text-dim);font-size:14px;margin-bottom:24px}
+    #tools .dir-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:26px}
+    #tools .dir-filters button{background:transparent;border:1px solid var(--tk-border-bright);color:var(--tk-text-dim);
+      font-family:var(--tk-mono);font-size:12px;padding:6px 14px;border-radius:20px;cursor:pointer;transition:all .15s}
+    #tools .dir-filters button:hover{color:var(--tk-text);border-color:var(--tk-text-dim)}
+    #tools .dir-filters button.active{color:#0a0a0a;background:var(--tk-green);border-color:var(--tk-green)}
+    #tools .dir-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+    #tools .tk-card{background:var(--tk-panel);border:1px solid var(--tk-border);border-radius:8px;padding:18px;
+      transition:border-color .15s,transform .15s;display:flex;flex-direction:column}
+    #tools .tk-card:hover{border-color:var(--tk-green-dim);transform:translateY(-2px)}
+    #tools .tk-card .cat{font-family:var(--tk-mono);font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:var(--tk-cyan);margin-bottom:8px}
+    #tools .tk-card h3{font-family:var(--tk-mono);font-size:15px;color:#fff;margin-bottom:6px}
+    #tools .tk-card p{font-size:13px;color:var(--tk-text-dim);flex:1;margin:0}
+    #tools .tk-card a{font-family:var(--tk-mono);font-size:12px;margin-top:12px;display:inline-block;color:var(--tk-green);text-decoration:none}
+    #tools .tk-card a:hover{text-decoration:underline}
+    #tools .tk-card a::before{content:"\2192 ";color:var(--tk-green)}
+    #tools ::selection{background:var(--tk-green);color:#0a0a0a}
+    @media(max-width:640px){
+      #tools .tool-pane{padding:18px}
+      #tools table.kv td:first-child{width:130px}
+    }
+    </style>
+</head>
+<body>
+    <!-- ==================== PRELOADER ==================== -->
+    <div id="preloader">
+        <div class="preloader-inner">
+            <div class="preloader-text">
+                <span class="bracket">[</span>
+                <span id="preloader-status">INITIALIZING SYSTEM</span>
+                <span class="bracket">]</span>
+            </div>
+            <div class="preloader-bar">
+                <div class="preloader-progress"></div>
+            </div>
+            <div class="preloader-logs">
+                <p>> Loading security modules...</p>
+                <p>> Establishing encrypted connection...</p>
+                <p>> Verifying credentials...</p>
+                <p>> Access granted.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== CUSTOM CURSOR ==================== -->
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-ring" id="cursor-ring"></div>
+
+    <!-- ==================== SCROLL PROGRESS BAR ==================== -->
+    <div class="scroll-progress" id="scroll-progress"></div>
+
+    <!-- ==================== SCAN LINE OVERLAY ==================== -->
+    <div class="scanline"></div>
+
+    <!-- ==================== PARTICLES BACKGROUND ==================== -->
+    <div id="particles-js"></div>
+
+    <!-- ==================== NAVIGATION ==================== -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#hero" class="nav-logo" aria-label="Home">
+                <svg class="nav-logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 120" width="32" height="38">
+                    <path d="M50 2 L95 20 L95 55 C95 85 50 118 50 118 C50 118 5 85 5 55 L5 20 Z" fill="none" stroke="#00ff41" stroke-width="4"/>
+                    <text x="50" y="70" text-anchor="middle" font-family="'Fira Code', monospace" font-weight="bold" font-size="34" fill="#00ff41">SP</text>
+                </svg>
+            </a>
+            <div class="nav-menu" id="nav-menu">
+                <a href="#hero" class="nav-link active">Home</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#skills" class="nav-link">Skills</a>
+                <a href="#certifications" class="nav-link">Certs</a>
+                <a href="#education" class="nav-link">Education</a>
+                <a href="#projects" class="nav-link">Projects</a>
+                <a href="#tools" class="nav-link">Tools</a>
+                <a href="#blog" class="nav-link">Blog</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ==================== HERO SECTION ==================== -->
+    <section id="hero" class="hero">
+        <div class="hero-content">
+            <p class="hero-greeting" data-aos="fade-down" data-aos-delay="200">
+                <span class="terminal-prompt">&gt;</span> System Access Granted <span class="terminal-prompt">//</span> Welcome, I'm
+            </p>
+            <h1 class="glitch-text" data-text="SNEH PATEL" data-aos="fade-up" data-aos-delay="400">
+                SNEH PATEL
+            </h1>
+            <div class="hero-typed" data-aos="fade-up" data-aos-delay="600">
+                <span class="terminal-prompt">&gt;</span>
+                <span id="typed-output"></span>
+            </div>
+            <p class="hero-description" data-aos="fade-up" data-aos-delay="800">
+                Securing digital landscapes, one vulnerability at a time. Based in Ontario, Canada.
+            </p>
+            <div class="hero-buttons" data-aos="fade-up" data-aos-delay="1000">
+                <a href="#projects" class="btn btn-primary">
+                    <i class="fas fa-shield-halved"></i> View My Work
+                </a>
+                <a href="#contact" class="btn btn-outline">
+                    <i class="fas fa-terminal"></i> Contact Me
+                </a>
+            </div>
+            <div class="hero-social" data-aos="fade-up" data-aos-delay="1200">
+                <a href="https://github.com/sneh1309" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/sneh-patel-55435a20b" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="https://sneh1309.github.io" target="_blank" rel="noopener noreferrer" aria-label="Website">
+                    <i class="fas fa-globe"></i>
+                </a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+            <p>Scroll Down</p>
+        </div>
+    </section>
+
+    <!-- ==================== ABOUT SECTION ==================== -->
+    <section id="about" class="section about">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">
+                <span class="title-bracket">[</span> About Me <span class="title-bracket">]</span>
+            </h2>
+            <div class="about-grid">
+                <div class="about-image" data-aos="fade-right" data-aos-delay="200">
+                    <div class="image-wrapper">
+                        <div class="image-placeholder">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <div class="image-border"></div>
+                    </div>
+                </div>
+                <div class="about-content" data-aos="fade-left" data-aos-delay="400">
+                    <div class="terminal-window">
+                        <div class="terminal-header">
+                            <span class="terminal-dot red"></span>
+                            <span class="terminal-dot yellow"></span>
+                            <span class="terminal-dot green"></span>
+                            <span class="terminal-title">about_sneh.sh</span>
+                        </div>
+                        <div class="terminal-body">
+                            <p><span class="prompt">$</span> <span class="command">cat</span> about.txt</p>
+                            <p class="output">
+                                Cybersecurity professional with a strong foundation in computer science
+                                and hands-on experience in penetration testing, vulnerability assessment,
+                                and security operations. Graduated with a BSc in Computer Science from
+                                De Montfort University, UK, and completed postgraduate studies
+                                in Cybersecurity at Northern College, Ontario, Canada.
+                            </p>
+                            <p class="output">
+                                Passionate about protecting digital infrastructure, identifying security
+                                weaknesses, and building robust defense mechanisms. Experienced with
+                                industry-standard tools and frameworks for network security, ethical
+                                hacking, and incident response.
+                            </p>
+                            <p><span class="prompt">$</span> <span class="cursor-blink">_</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="about-stats" data-aos="fade-up" data-aos-delay="600">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-project-diagram"></i></div>
+                    <span class="stat-number" data-target="15">0</span>
+                    <span class="stat-label">Projects</span>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-certificate"></i></div>
+                    <span class="stat-number" data-target="7">0</span>
+                    <span class="stat-label">Certifications</span>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-flag"></i></div>
+                    <span class="stat-number" data-target="20">0</span>
+                    <span class="stat-label">CTFs Completed</span>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-bug"></i></div>
+                    <span class="stat-number" data-target="50">0</span>
+                    <span class="stat-label">Vulnerabilities Found</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== SKILLS SECTION ==================== -->
+    <section id="skills" class="section skills">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">
+                <span class="title-bracket">[</span> Skills & Tools <span class="title-bracket">]</span>
+            </h2>
+            <div class="skills-grid">
+                <div class="skill-category" data-aos="fade-up" data-aos-delay="100">
+                    <div class="skill-icon"><i class="fas fa-network-wired"></i></div>
+                    <h3>Network Security</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Wireshark</span>
+                        <span class="skill-tag">Nmap</span>
+                        <span class="skill-tag">Snort</span>
+                        <span class="skill-tag">TCP/IP</span>
+                        <span class="skill-tag">Firewalls</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="90"></div>
+                    </div>
+                </div>
+                <div class="skill-category" data-aos="fade-up" data-aos-delay="200">
+                    <div class="skill-icon"><i class="fas fa-crosshairs"></i></div>
+                    <h3>Penetration Testing</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Burp Suite</span>
+                        <span class="skill-tag">Metasploit</span>
+                        <span class="skill-tag">SQLmap</span>
+                        <span class="skill-tag">Nikto</span>
+                        <span class="skill-tag">Hydra</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="85"></div>
+                    </div>
+                </div>
+                <div class="skill-category" data-aos="fade-up" data-aos-delay="300">
+                    <div class="skill-icon"><i class="fab fa-linux"></i></div>
+                    <h3>OS & Platforms</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Kali Linux</span>
+                        <span class="skill-tag">Parrot OS</span>
+                        <span class="skill-tag">Ubuntu</span>
+                        <span class="skill-tag">Windows Server</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="88"></div>
+                    </div>
+                </div>
+                <div class="skill-category" data-aos="fade-up" data-aos-delay="400">
+                    <div class="skill-icon"><i class="fas fa-code"></i></div>
+                    <h3>Programming</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">Bash</span>
+                        <span class="skill-tag">PowerShell</span>
+                        <span class="skill-tag">SQL</span>
+                        <span class="skill-tag">JavaScript</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="80"></div>
+                    </div>
+                </div>
+                <div class="skill-category" data-aos="fade-up" data-aos-delay="500">
+                    <div class="skill-icon"><i class="fas fa-shield-virus"></i></div>
+                    <h3>Security Operations</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">SIEM</span>
+                        <span class="skill-tag">IDS/IPS</span>
+                        <span class="skill-tag">Splunk</span>
+                        <span class="skill-tag">ELK Stack</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="82"></div>
+                    </div>
+                </div>
+                <div class="skill-category" data-aos="fade-up" data-aos-delay="600">
+                    <div class="skill-icon"><i class="fas fa-magnifying-glass"></i></div>
+                    <h3>Digital Forensics</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Autopsy</span>
+                        <span class="skill-tag">Volatility</span>
+                        <span class="skill-tag">FTK</span>
+                        <span class="skill-tag">Chain of Custody</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="75"></div>
+                    </div>
+                </div>
+                <div class="skill-category" data-aos="fade-up" data-aos-delay="700">
+                    <div class="skill-icon"><i class="fab fa-microsoft"></i></div>
+                    <h3>Microsoft Security</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Microsoft Sentinel</span>
+                        <span class="skill-tag">Defender</span>
+                        <span class="skill-tag">Azure Security</span>
+                        <span class="skill-tag">Entra ID</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="78"></div>
+                    </div>
+                </div>
+                <div class="skill-category" data-aos="fade-up" data-aos-delay="800">
+                    <div class="skill-icon"><i class="fas fa-cloud"></i></div>
+                    <h3>Cloud Security</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">AWS Security</span>
+                        <span class="skill-tag">Azure Security Center</span>
+                        <span class="skill-tag">GCP IAM</span>
+                        <span class="skill-tag">Cloud Posture</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="72"></div>
+                    </div>
+                </div>
+                <div class="skill-category" data-aos="fade-up" data-aos-delay="900">
+                    <div class="skill-icon"><i class="fas fa-bell"></i></div>
+                    <h3>SOC & Incident Response</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">SOC Analyst</span>
+                        <span class="skill-tag">Threat Hunting</span>
+                        <span class="skill-tag">IR Procedures</span>
+                        <span class="skill-tag">Triage</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="80"></div>
+                    </div>
+                </div>
+                <div class="skill-category" data-aos="fade-up" data-aos-delay="1000">
+                    <div class="skill-icon"><i class="fas fa-scale-balanced"></i></div>
+                    <h3>GRC / Governance</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">ISO 27001</span>
+                        <span class="skill-tag">NIST</span>
+                        <span class="skill-tag">GDPR</span>
+                        <span class="skill-tag">Risk Assessment</span>
+                        <span class="skill-tag">Policy</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-width="70"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== CERTIFICATIONS SECTION ==================== -->
+    <section id="certifications" class="section certifications">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">
+                <span class="title-bracket">[</span> Certifications <span class="title-bracket">]</span>
+            </h2>
+            <div class="cert-grid">
+                <div class="cert-card" data-aos="flip-left" data-aos-delay="100">
+                    <div class="cert-icon"><i class="fas fa-shield-halved"></i></div>
+                    <h3>CompTIA Security+</h3>
+                    <p class="cert-issuer">CompTIA</p>
+                    <span class="cert-date">Sep 2024</span>
+                </div>
+                <div class="cert-card" data-aos="flip-left" data-aos-delay="200">
+                    <div class="cert-icon"><i class="fas fa-robot"></i></div>
+                    <h3>ISO/IEC 42001:2023 Lead Auditor</h3>
+                    <p class="cert-issuer">Mastermind</p>
+                    <span class="cert-date">Dec 2025</span>
+                </div>
+                <div class="cert-card" data-aos="flip-left" data-aos-delay="300">
+                    <div class="cert-icon"><i class="fas fa-user-secret"></i></div>
+                    <h3>Ethical Hacking</h3>
+                    <p class="cert-issuer">CompTIA</p>
+                    <span class="cert-date">Jul 2022</span>
+                </div>
+                <div class="cert-card" data-aos="flip-left" data-aos-delay="400">
+                    <div class="cert-icon"><i class="fas fa-user-shield"></i></div>
+                    <h3>Junior Cybersecurity Analyst</h3>
+                    <p class="cert-issuer">Cisco</p>
+                    <span class="cert-date">Nov 2024</span>
+                </div>
+                <div class="cert-card" data-aos="flip-left" data-aos-delay="500">
+                    <div class="cert-icon"><i class="fas fa-lock"></i></div>
+                    <h3>Introduction to Cybersecurity</h3>
+                    <p class="cert-issuer">Cisco</p>
+                    <span class="cert-date">Nov 2024</span>
+                </div>
+                <div class="cert-card" data-aos="flip-left" data-aos-delay="600">
+                    <div class="cert-icon"><i class="fas fa-chart-bar"></i></div>
+                    <h3>Data Analysis</h3>
+                    <p class="cert-issuer">Udemy</p>
+                    <span class="cert-date">Mar 2024</span>
+                </div>
+                <div class="cert-card" data-aos="flip-left" data-aos-delay="700">
+                    <div class="cert-icon"><i class="fab fa-python"></i></div>
+                    <h3>Python</h3>
+                    <p class="cert-issuer">LinkedIn</p>
+                    <span class="cert-date">Jul 2022</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== EDUCATION SECTION ==================== -->
+    <section id="education" class="section education">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">
+                <span class="title-bracket">[</span> Education <span class="title-bracket">]</span>
+            </h2>
+            <div class="timeline">
+                <div class="timeline-item" data-aos="fade-right" data-aos-delay="200">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <span class="timeline-date">2024 — 2026</span>
+                            <span class="timeline-badge">Postgraduate</span>
+                        </div>
+                        <h3>PG Cybersecurity</h3>
+                        <p class="timeline-institution">
+                            <i class="fas fa-university"></i> Northern College, Ontario, Canada
+                        </p>
+                        <p class="timeline-description">
+                            Specialized in advanced cybersecurity concepts including threat analysis,
+                            incident response, digital forensics, and security architecture.
+                        </p>
+                    </div>
+                </div>
+                <div class="timeline-item" data-aos="fade-left" data-aos-delay="400">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <span class="timeline-date">2019 — 2022</span>
+                            <span class="timeline-badge">Undergraduate</span>
+                        </div>
+                        <h3>BSc Computer Science</h3>
+                        <p class="timeline-institution">
+                            <i class="fas fa-university"></i> De Montfort University, UK
+                        </p>
+                        <p class="timeline-description">
+                            Built a strong foundation in computer science fundamentals including
+                            programming, networking, databases, and software engineering.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== PROJECTS SECTION ==================== -->
+    <section id="projects" class="section projects">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">
+                <span class="title-bracket">[</span> Projects <span class="title-bracket">]</span>
+            </h2>
+            <div class="project-filters" data-aos="fade-up" data-aos-delay="200">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="pentest">Pentest</button>
+                <button class="filter-btn" data-filter="tools">Tools</button>
+                <button class="filter-btn" data-filter="network">Network</button>
+                <button class="filter-btn" data-filter="dfir">DFIR</button>
+            </div>
+            <div class="projects-grid">
+                <div class="project-card" data-category="network tools" data-aos="fade-up" data-aos-delay="100">
+                    <div class="project-image">
+                        <div class="project-placeholder">
+                            <i class="fas fa-satellite-dish"></i>
+                        </div>
+                        <div class="project-overlay">
+                            <a href="https://github.com/sneh1309/network-vulnerability-scanner" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Network Vulnerability Scanner</h3>
+                        <p>Python-based scanner using Nmap and Scapy to discover hosts, open ports, running services, and map known CVEs to identified vulnerabilities.</p>
+                        <div class="project-tags">
+                            <span>Python</span>
+                            <span>Nmap</span>
+                            <span>Scapy</span>
+                            <span>CVE</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card" data-category="tools network" data-aos="fade-up" data-aos-delay="200">
+                    <div class="project-image">
+                        <div class="project-placeholder">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="project-overlay">
+                            <a href="https://github.com/sneh1309/siem-log-analyzer" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>SIEM Log Analyzer Dashboard</h3>
+                        <p>Custom log aggregation and real-time alerting dashboard that parses syslog and Windows event logs to detect anomalous patterns and potential threats.</p>
+                        <div class="project-tags">
+                            <span>Python</span>
+                            <span>ELK Stack</span>
+                            <span>Splunk</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card" data-category="tools dfir" data-aos="fade-up" data-aos-delay="300">
+                    <div class="project-image">
+                        <div class="project-placeholder">
+                            <i class="fas fa-envelope-open-text"></i>
+                        </div>
+                        <div class="project-overlay">
+                            <a href="https://github.com/sneh1309/phishing-email-detector" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Phishing Email Detector</h3>
+                        <p>Machine learning-based tool that analyzes email headers, sender reputation, and content patterns to classify and flag phishing attempts in real-time.</p>
+                        <div class="project-tags">
+                            <span>Python</span>
+                            <span>Scikit-learn</span>
+                            <span>NLP</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card" data-category="pentest network" data-aos="fade-up" data-aos-delay="400">
+                    <div class="project-image">
+                        <div class="project-placeholder">
+                            <i class="fas fa-fire-flame-curved"></i>
+                        </div>
+                        <div class="project-overlay">
+                            <a href="https://github.com/sneh1309/web-application-firewall" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Web Application Firewall (WAF)</h3>
+                        <p>Custom WAF rules and reverse proxy configuration filtering SQL injection, XSS, and CSRF attacks using ModSecurity and OWASP Core Rule Set.</p>
+                        <div class="project-tags">
+                            <span>ModSecurity</span>
+                            <span>Nginx</span>
+                            <span>OWASP</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card" data-category="pentest tools" data-aos="fade-up" data-aos-delay="500">
+                    <div class="project-image">
+                        <div class="project-placeholder">
+                            <i class="fas fa-sitemap"></i>
+                        </div>
+                        <div class="project-overlay">
+                            <a href="https://github.com/sneh1309/ad-hardening-toolkit" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Active Directory Hardening Toolkit</h3>
+                        <p>Collection of PowerShell scripts and GPO templates for securing Active Directory environments against common attack vectors like Kerberoasting and Pass-the-Hash.</p>
+                        <div class="project-tags">
+                            <span>PowerShell</span>
+                            <span>GPO</span>
+                            <span>Windows Server</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card" data-category="dfir tools" data-aos="fade-up" data-aos-delay="600">
+                    <div class="project-image">
+                        <div class="project-placeholder">
+                            <i class="fas fa-clipboard-list"></i>
+                        </div>
+                        <div class="project-overlay">
+                            <a href="https://github.com/sneh1309/incident-response-playbook" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Incident Response Playbook Platform</h3>
+                        <p>Web application for managing IR procedures, maintaining chain-of-custody documentation, and building forensic investigation timelines with team collaboration.</p>
+                        <div class="project-tags">
+                            <span>Python</span>
+                            <span>Flask</span>
+                            <span>SQLite</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== TOOLS SECTION (merged from tools.html) ==================== -->
+    <section id="tools" class="section tools">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">
+                <span class="title-bracket">[</span> Security Toolkit <span class="title-bracket">]</span>
+            </h2>
+            <p class="tools-sub" data-aos="fade-up" data-aos-delay="100">
+                Free browser-based security utilities plus a curated directory of the open-source tools I use and recommend. No accounts, no limits, no tracking.
+            </p>
+            <div class="local-badge" data-aos="fade-up" data-aos-delay="200">
+                <span class="dot"></span> ALL INTERACTIVE TOOLS RUN 100% IN YOUR BROWSER — NOTHING IS SENT TO ANY SERVER
+            </div>
+
+            <!-- Interactive tools terminal -->
+            <div class="term" data-aos="fade-up" data-aos-delay="300">
+                <div class="term-bar">
+                    <span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span>
+                    <span class="title">sneh@toolkit: ~/tools</span>
+                </div>
+                <div class="tool-tabs" role="tablist">
+                    <button class="active" data-pane="p-pass" role="tab">passwd-check</button>
+                    <button data-pane="p-gen" role="tab">passwd-gen</button>
+                    <button data-pane="p-hash" role="tab">hash</button>
+                    <button data-pane="p-enc" role="tab">encode</button>
+                    <button data-pane="p-subnet" role="tab">subnet</button>
+                    <button data-pane="p-jwt" role="tab">jwt-decode</button>
+                    <button data-pane="p-headers" role="tab">headers</button>
+                </div>
+
+                <!-- Password strength -->
+                <div class="tool-pane active" id="p-pass">
+                    <div class="cmd"><span class="dollar">$</span> ./passwd-check — analyze password strength &amp; estimated crack time</div>
+                    <label class="f" for="pw-in">Password to analyze</label>
+                    <input type="text" id="pw-in" placeholder="Type or paste a password..." autocomplete="off" spellcheck="false">
+                    <div class="meter"><div id="pw-bar"></div></div>
+                    <div class="meter-label" id="pw-verdict">Waiting for input…</div>
+                    <ul class="checks" id="pw-checks"></ul>
+                    <div class="out" id="pw-out"></div>
+                </div>
+
+                <!-- Password generator -->
+                <div class="tool-pane" id="p-gen">
+                    <div class="cmd"><span class="dollar">$</span> ./passwd-gen — cryptographically secure password generator</div>
+                    <div class="row">
+                        <div>
+                            <label class="f" for="gen-len">Length: <span id="gen-len-val">20</span></label>
+                            <input type="range" id="gen-len" min="8" max="64" value="20">
+                        </div>
+                    </div>
+                    <div class="opts">
+                        <label><input type="checkbox" id="gen-lower" checked> a-z</label>
+                        <label><input type="checkbox" id="gen-upper" checked> A-Z</label>
+                        <label><input type="checkbox" id="gen-digit" checked> 0-9</label>
+                        <label><input type="checkbox" id="gen-sym" checked> !@#$%</label>
+                        <label><input type="checkbox" id="gen-amb"> exclude ambiguous (O0Il1)</label>
+                    </div>
+                    <button class="tk-btn" id="gen-btn">Generate</button>
+                    <div class="copy-wrap"><div class="out" id="gen-out"></div><button class="copy-btn" id="gen-copy" style="display:none">copy</button></div>
+                </div>
+
+                <!-- Hash generator -->
+                <div class="tool-pane" id="p-hash">
+                    <div class="cmd"><span class="dollar">$</span> ./hash — generate SHA digests (Web Crypto API)</div>
+                    <label class="f" for="hash-in">Input text</label>
+                    <textarea id="hash-in" placeholder="Text to hash..."></textarea>
+                    <button class="tk-btn" id="hash-btn">Compute hashes</button>
+                    <div class="out" id="hash-out"></div>
+                </div>
+
+                <!-- Encoder / decoder -->
+                <div class="tool-pane" id="p-enc">
+                    <div class="cmd"><span class="dollar">$</span> ./encode — Base64 / Hex / URL encoding &amp; decoding</div>
+                    <div class="row">
+                        <div>
+                            <label class="f" for="enc-mode">Format</label>
+                            <select id="enc-mode">
+                                <option value="b64">Base64</option>
+                                <option value="hex">Hex</option>
+                                <option value="url">URL</option>
+                            </select>
+                        </div>
+                    </div>
+                    <label class="f" for="enc-in">Input</label>
+                    <textarea id="enc-in" placeholder="Text to encode or decode..."></textarea>
+                    <button class="tk-btn" id="enc-btn">Encode</button>
+                    <button class="tk-btn ghost" id="dec-btn">Decode</button>
+                    <div class="copy-wrap"><div class="out" id="enc-out"></div></div>
+                </div>
+
+                <!-- Subnet calculator -->
+                <div class="tool-pane" id="p-subnet">
+                    <div class="cmd"><span class="dollar">$</span> ./subnet — IPv4 CIDR calculator</div>
+                    <label class="f" for="sub-in">IP address / prefix (CIDR)</label>
+                    <input type="text" id="sub-in" placeholder="192.168.1.50/24" spellcheck="false">
+                    <button class="tk-btn" id="sub-btn">Calculate</button>
+                    <div id="sub-out"></div>
+                </div>
+
+                <!-- JWT decoder -->
+                <div class="tool-pane" id="p-jwt">
+                    <div class="cmd"><span class="dollar">$</span> ./jwt-decode — inspect JWT header &amp; payload (no signature verification)</div>
+                    <label class="f" for="jwt-in">JWT token</label>
+                    <textarea id="jwt-in" placeholder="eyJhbGciOi..." spellcheck="false"></textarea>
+                    <button class="tk-btn" id="jwt-btn">Decode</button>
+                    <div class="out" id="jwt-out"></div>
+                </div>
+
+                <!-- Header analyzer -->
+                <div class="tool-pane" id="p-headers">
+                    <div class="cmd"><span class="dollar">$</span> ./headers — grade HTTP security headers (paste from <code>curl -I yoursite.com</code> or DevTools → Network)</div>
+                    <label class="f" for="hdr-in">Raw response headers</label>
+                    <textarea id="hdr-in" style="min-height:140px" placeholder="HTTP/2 200
+content-type: text/html
+strict-transport-security: max-age=31536000
+x-frame-options: DENY
+..."></textarea>
+                    <button class="tk-btn" id="hdr-btn">Analyze</button>
+                    <div id="hdr-out"></div>
+                </div>
+            </div>
+
+            <!-- Open-source directory -->
+            <h3 class="dir-head" data-aos="fade-up">Open-Source Tool Directory</h3>
+            <p class="dir-sub" data-aos="fade-up">Battle-tested free tools, organized the way a security workflow actually runs. All links go to official project pages.</p>
+            <div class="dir-filters" id="dir-filters" data-aos="fade-up">
+                <button class="active" data-cat="all">All</button>
+                <button data-cat="network">Network</button>
+                <button data-cat="pentest">Pentest</button>
+                <button data-cat="passwords">Passwords</button>
+                <button data-cat="dfir">DFIR</button>
+                <button data-cat="defense">Defense / SIEM</button>
+                <button data-cat="osint">OSINT</button>
+                <button data-cat="platform">Platforms</button>
+            </div>
+            <div class="dir-grid" id="dir-grid"></div>
+        </div>
+    </section>
+
+    <!-- ==================== BLOG SECTION ==================== -->
+    <section id="blog" class="section blog">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">
+                <span class="title-bracket">[</span> Blog <span class="title-bracket">]</span>
+            </h2>
+            <div class="blog-grid" id="blog-feed">
+                <!-- RSS articles will be injected here by JavaScript -->
+                <div class="blog-loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p><span class="prompt">$</span> Fetching latest cybersecurity news<span class="cursor-blink">_</span></p>
+                </div>
+            </div>
+            <p class="blog-attribution">
+                Powered by <a href="https://thehackernews.com" target="_blank" rel="noopener noreferrer">The Hacker News</a> RSS Feed
+            </p>
+        </div>
+    </section>
+
+    <!-- ==================== CONTACT SECTION ==================== -->
+    <section id="contact" class="section contact">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">
+                <span class="title-bracket">[</span> Contact <span class="title-bracket">]</span>
+            </h2>
+            <p class="section-subtitle" data-aos="fade-up" data-aos-delay="200">
+                Have a security concern or want to collaborate? Let's connect.
+            </p>
+            <div class="contact-grid">
+                <div class="contact-info" data-aos="fade-right" data-aos-delay="300">
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <div>
+                            <h4>Location</h4>
+                            <p>Ontario, Canada</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                        <div>
+                            <h4>Email</h4>
+                            <p><a href="mailto:snehpatel">snehpatel</a></p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-globe"></i></div>
+                        <div>
+                            <h4>Website</h4>
+                            <p><a href="https://sneh1309.github.io/" target="_blank" rel="noopener noreferrer">Sneh Patel</a></p>
+                        </div>
+                    </div>
+                    <div class="contact-social">
+                        <a href="https://github.com/sneh1309" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                        <a href="https://www.linkedin.com/in/sneh-patel-55435a20b" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+                    </div>
+                </div>
+                <form class="contact-form" id="contact-form" action="https://formsubmit.co/ajax/snehp761@gmail.com" method="POST" data-aos="fade-left" data-aos-delay="400">
+                    <div class="form-group">
+                        <label for="name">
+                            <span class="prompt">$</span> Name
+                        </label>
+                        <input type="text" id="name" name="from_name" required placeholder="Enter your name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">
+                            <span class="prompt">$</span> Email
+                        </label>
+                        <input type="email" id="email" name="from_email" required placeholder="Enter your email">
+                        <div class="email-hint" id="email-hint"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">
+                            <span class="prompt">$</span> Subject
+                        </label>
+                        <input type="text" id="subject" name="subject" required placeholder="Enter subject">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">
+                            <span class="prompt">$</span> Message
+                        </label>
+                        <textarea id="message" name="message" rows="5" required placeholder="Enter your message"></textarea>
+                    </div>
+                    <!-- Security CAPTCHA -->
+                    <div class="form-group captcha-group">
+                        <label>
+                            <span class="prompt">$</span> Security Verification
+                        </label>
+                        <div class="captcha-box" id="captcha-box">
+                            <div class="captcha-challenge">
+                                <i class="fas fa-shield-halved captcha-icon"></i>
+                                <span class="captcha-question" id="captcha-question"></span>
+                                <button type="button" class="captcha-refresh" id="captcha-refresh" aria-label="Refresh CAPTCHA">
+                                    <i class="fas fa-rotate"></i>
+                                </button>
+                            </div>
+                            <input type="text" id="captcha-input" autocomplete="off" required placeholder="Enter answer">
+                        </div>
+                        <div class="captcha-error" id="captcha-error"></div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-submit">
+                        <i class="fas fa-paper-plane"></i>
+                        <span>Send Message</span>
+                    </button>
+                    <div class="form-status" id="form-status"></div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 120" width="28" height="34" style="filter: drop-shadow(0 0 6px rgba(0,255,65,0.4));">
+                        <path d="M50 2 L95 20 L95 55 C95 85 50 118 50 118 C50 118 5 85 5 55 L5 20 Z" fill="none" stroke="#00ff41" stroke-width="4"/>
+                        <text x="50" y="70" text-anchor="middle" font-family="'Fira Code', monospace" font-weight="bold" font-size="34" fill="#00ff41">SP</text>
+                    </svg>
+                </div>
+                <p class="footer-text">
+                    &copy; 2026 Sneh Patel. Securing the digital world.
+                </p>
+                <div class="footer-links">
+                    <a href="https://github.com/sneh1309" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/sneh-patel-55435a20b" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://sneh1309.github.io/" target="_blank" rel="noopener noreferrer"><i class="fas fa-globe"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== BACK TO TOP ==================== -->
+    <button class="back-to-top" id="back-to-top" aria-label="Back to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- ==================== SCRIPTS ==================== -->
+    <!-- Particles.js -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <!-- Typed.js -->
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <!-- AOS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <!-- Custom JS -->
+    <script src="js/main.js"></script>
+
+    <!-- ==================== TOOLS SECTION SCRIPT (merged from tools.html, wrapped in IIFE) ==================== -->
+    <script>
+    (function(){
+    /* =============== tabs =============== */
+    document.querySelectorAll('#tools .tool-tabs button').forEach(b=>{
+      b.addEventListener('click',()=>{
+        document.querySelectorAll('#tools .tool-tabs button').forEach(x=>x.classList.remove('active'));
+        document.querySelectorAll('#tools .tool-pane').forEach(x=>x.classList.remove('active'));
+        b.classList.add('active');
+        document.getElementById(b.dataset.pane).classList.add('active');
+      });
+    });
+
+    /* =============== helpers =============== */
+    const $=id=>document.getElementById(id);
+    function showOut(el,txt,isErr=false){el.textContent=txt;el.classList.add('show');el.classList.toggle('err',!!isErr);}
+
+    /* =============== 1. password strength =============== */
+    const COMMON=['password','123456','12345678','qwerty','abc123','letmein','admin','welcome','iloveyou','monkey','dragon','football','baseball','sunshine','princess','master','shadow','superman','password1','p@ssw0rd'];
+    $('pw-in').addEventListener('input',()=>{
+      const pw=$('pw-in').value;
+      const bar=$('pw-bar'),verdict=$('pw-verdict'),list=$('pw-checks'),out=$('pw-out');
+      if(!pw){bar.style.width='0';verdict.textContent='Waiting for input…';list.innerHTML='';out.classList.remove('show');return;}
+      let charset=0;
+      if(/[a-z]/.test(pw))charset+=26;
+      if(/[A-Z]/.test(pw))charset+=26;
+      if(/[0-9]/.test(pw))charset+=10;
+      if(/[^a-zA-Z0-9]/.test(pw))charset+=33;
+      const entropy=pw.length*Math.log2(charset||1);
+      const isCommon=COMMON.includes(pw.toLowerCase());
+      const checks=[
+        [pw.length>=12,'At least 12 characters ('+pw.length+')'],
+        [/[a-z]/.test(pw)&&/[A-Z]/.test(pw),'Mixed upper & lower case'],
+        [/[0-9]/.test(pw),'Contains numbers'],
+        [/[^a-zA-Z0-9]/.test(pw),'Contains symbols'],
+        [!/(.)\1{2,}/.test(pw),'No repeated characters (aaa)'],
+        [!/(?:012|123|234|345|456|567|678|789|abc|qwe|asd)/i.test(pw),'No obvious sequences'],
+        [!isCommon,'Not in common-password list']
+      ];
+      list.innerHTML=checks.map(([ok,t])=>`<li class="${ok?'ok':'bad'}">${t}</li>`).join('');
+      let score=isCommon?0:Math.min(100,Math.round(entropy/1.28));
+      const levels=[[25,'var(--tk-red)','WEAK — crackable in seconds'],[50,'var(--tk-amber)','FAIR — vulnerable to offline attacks'],[75,'#c8e64c','GOOD — reasonable for most accounts'],[101,'var(--tk-green)','STRONG — resistant to brute force']];
+      const [_,color,label]=levels.find(l=>score<l[0]);
+      bar.style.width=score+'%';bar.style.background=color;
+      verdict.textContent='['+score+'/100] '+label;
+      // crack time @ 1e10 guesses/sec (offline GPU rig)
+      const guesses=Math.pow(2,entropy)/2;
+      const secs=guesses/1e10;
+      let t;
+      if(isCommon)t='instant (dictionary hit)';
+      else if(secs<1)t='< 1 second';
+      else if(secs<3600)t=Math.round(secs/60)+' minutes';
+      else if(secs<86400)t=Math.round(secs/3600)+' hours';
+      else if(secs<31536000)t=Math.round(secs/86400)+' days';
+      else if(secs<31536000*1e6)t=Math.round(secs/31536000).toLocaleString()+' years';
+      else t=(secs/31536000).toExponential(1)+' years';
+      showOut(out,`entropy      : ${entropy.toFixed(1)} bits\ncharset size : ${charset}\ncrack time   : ~${t}  (offline, 10 billion guesses/sec)\n\n[i] Analysis is local-only. This password never left your browser.`);
+    });
+
+    /* =============== 2. password generator =============== */
+    $('gen-len').addEventListener('input',()=>$('gen-len-val').textContent=$('gen-len').value);
+    $('gen-btn').addEventListener('click',()=>{
+      let pool='';
+      const AMB='O0Il1';
+      if($('gen-lower').checked)pool+='abcdefghijklmnopqrstuvwxyz';
+      if($('gen-upper').checked)pool+='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      if($('gen-digit').checked)pool+='0123456789';
+      if($('gen-sym').checked)pool+='!@#$%^&*()-_=+[]{};:,.<>?';
+      if($('gen-amb').checked)pool=[...pool].filter(c=>!AMB.includes(c)).join('');
+      if(!pool){showOut($('gen-out'),'error: select at least one character set',true);return;}
+      const len=+$('gen-len').value;
+      const rnd=new Uint32Array(len);crypto.getRandomValues(rnd);
+      const pw=[...rnd].map(n=>pool[n%pool.length]).join('');
+      showOut($('gen-out'),pw);
+      $('gen-copy').style.display='block';
+    });
+    $('gen-copy').addEventListener('click',async()=>{
+      await navigator.clipboard.writeText($('gen-out').textContent);
+      $('gen-copy').textContent='copied ✓';setTimeout(()=>$('gen-copy').textContent='copy',1500);
+    });
+
+    /* =============== 3. hash generator =============== */
+    $('hash-btn').addEventListener('click',async()=>{
+      const txt=$('hash-in').value;
+      if(!txt){showOut($('hash-out'),'error: input is empty',true);return;}
+      const data=new TextEncoder().encode(txt);
+      const algos=['SHA-1','SHA-256','SHA-384','SHA-512'];
+      const lines=[];
+      for(const a of algos){
+        const buf=await crypto.subtle.digest(a,data);
+        const hex=[...new Uint8Array(buf)].map(b=>b.toString(16).padStart(2,'0')).join('');
+        lines.push(a.padEnd(9)+': '+hex);
+      }
+      lines.push('\n[i] MD5 is omitted intentionally — it is cryptographically broken.');
+      showOut($('hash-out'),lines.join('\n'));
+    });
+
+    /* =============== 4. encoder / decoder =============== */
+    function b64enc(s){return btoa(String.fromCharCode(...new TextEncoder().encode(s)));}
+    function b64dec(s){return new TextDecoder().decode(Uint8Array.from(atob(s.trim()),c=>c.charCodeAt(0)));}
+    function hexenc(s){return [...new TextEncoder().encode(s)].map(b=>b.toString(16).padStart(2,'0')).join('');}
+    function hexdec(s){s=s.replace(/\s+/g,'');if(s.length%2||/[^0-9a-f]/i.test(s))throw new Error('invalid hex');
+      return new TextDecoder().decode(new Uint8Array(s.match(/../g).map(h=>parseInt(h,16))));}
+    function runEnc(decode){
+      const mode=$('enc-mode').value,inp=$('enc-in').value,out=$('enc-out');
+      if(!inp){showOut(out,'error: input is empty',true);return;}
+      try{
+        let r;
+        if(mode==='b64')r=decode?b64dec(inp):b64enc(inp);
+        else if(mode==='hex')r=decode?hexdec(inp):hexenc(inp);
+        else r=decode?decodeURIComponent(inp):encodeURIComponent(inp);
+        showOut(out,r);
+      }catch(e){showOut(out,'error: could not '+(decode?'decode':'encode')+' — '+e.message,true);}
+    }
+    $('enc-btn').addEventListener('click',()=>runEnc(false));
+    $('dec-btn').addEventListener('click',()=>runEnc(true));
+
+    /* =============== 5. subnet calculator =============== */
+    $('sub-btn').addEventListener('click',()=>{
+      const v=$('sub-in').value.trim(),box=$('sub-out');
+      const m=v.match(/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})\/(\d{1,2})$/);
+      const err=t=>box.innerHTML=`<div class="out show err">error: ${t}</div>`;
+      if(!m)return err('expected format like 192.168.1.50/24');
+      const oct=m.slice(1,5).map(Number),cidr=+m[5];
+      if(oct.some(o=>o>255))return err('octet out of range (0-255)');
+      if(cidr>32)return err('prefix must be 0-32');
+      const ip=(oct[0]<<24|oct[1]<<16|oct[2]<<8|oct[3])>>>0;
+      const mask=cidr===0?0:(0xFFFFFFFF<<(32-cidr))>>>0;
+      const net=(ip&mask)>>>0, bcast=(net|~mask)>>>0;
+      const fmt=n=>[n>>>24,n>>>16&255,n>>>8&255,n&255].join('.');
+      const hosts=cidr>=31?(cidr===31?2:1):Math.pow(2,32-cidr)-2;
+      const first=cidr>=31?net:net+1, last=cidr>=31?bcast:bcast-1;
+      const cls=oct[0]<128?'A':oct[0]<192?'B':oct[0]<224?'C':oct[0]<240?'D (multicast)':'E (reserved)';
+      const priv=(oct[0]===10)||(oct[0]===172&&oct[1]>=16&&oct[1]<=31)||(oct[0]===192&&oct[1]===168);
+      box.innerHTML=`<table class="kv">
+        <tr><td>Network address</td><td>${fmt(net)}/${cidr}</td></tr>
+        <tr><td>Subnet mask</td><td>${fmt(mask)}</td></tr>
+        <tr><td>Wildcard mask</td><td>${fmt(~mask>>>0)}</td></tr>
+        <tr><td>Broadcast</td><td>${fmt(bcast)}</td></tr>
+        <tr><td>Host range</td><td>${fmt(first)} — ${fmt(last)}</td></tr>
+        <tr><td>Usable hosts</td><td>${hosts.toLocaleString()}</td></tr>
+        <tr><td>Address class</td><td>${cls}</td></tr>
+        <tr><td>Scope</td><td>${priv?'Private (RFC 1918)':'Public'}</td></tr>
+      </table>`;
+    });
+    $('sub-in').addEventListener('keydown',e=>{if(e.key==='Enter')$('sub-btn').click();});
+
+    /* =============== 6. JWT decoder =============== */
+    $('jwt-btn').addEventListener('click',()=>{
+      const t=$('jwt-in').value.trim(),out=$('jwt-out');
+      const parts=t.split('.');
+      if(parts.length!==3){showOut(out,'error: a JWT has exactly 3 dot-separated parts (header.payload.signature)',true);return;}
+      const b64u=s=>{s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';return b64dec(s);};
+      try{
+        const header=JSON.parse(b64u(parts[0])), payload=JSON.parse(b64u(parts[1]));
+        let extra='';
+        if(payload.exp){
+          const d=new Date(payload.exp*1000);
+          extra+='\n[i] exp = '+d.toUTCString()+(d<new Date()?'  ← TOKEN EXPIRED':'  (valid)');
+        }
+        if(payload.iat)extra+='\n[i] iat = '+new Date(payload.iat*1000).toUTCString();
+        if(header.alg==='none')extra+='\n[!] alg:none — this token has NO signature protection';
+        showOut(out,'// HEADER\n'+JSON.stringify(header,null,2)+'\n\n// PAYLOAD\n'+JSON.stringify(payload,null,2)+'\n'+extra+'\n\n[i] Signature is NOT verified — this tool only decodes. Decoded locally; token never left your browser.');
+      }catch(e){showOut(out,'error: invalid Base64URL or JSON in token',true);}
+    });
+
+    /* =============== 7. security headers analyzer =============== */
+    $('hdr-btn').addEventListener('click',()=>{
+      const raw=$('hdr-in').value,box=$('hdr-out');
+      if(!raw.trim()){box.innerHTML='<div class="out show err">error: paste response headers first</div>';return;}
+      const hdrs={};
+      raw.split(/\r?\n/).forEach(l=>{const i=l.indexOf(':');if(i>0)hdrs[l.slice(0,i).trim().toLowerCase()]=l.slice(i+1).trim();});
+      const tests=[
+        ['strict-transport-security','HSTS — forces HTTPS',v=>/max-age=\d{6,}/.test(v)],
+        ['content-security-policy','CSP — mitigates XSS & injection',v=>!!v],
+        ['x-content-type-options','Prevents MIME sniffing',v=>/nosniff/i.test(v)],
+        ['x-frame-options','Clickjacking protection',v=>/deny|sameorigin/i.test(v)],
+        ['referrer-policy','Controls referrer leakage',v=>!!v],
+        ['permissions-policy','Restricts browser features',v=>!!v]
+      ];
+      let pass=0,rows='';
+      tests.forEach(([h,desc,fn])=>{
+        const present=h in hdrs&&fn(hdrs[h]);
+        if(present)pass++;
+        rows+=`<li class="${present?'ok':'bad'}"><strong>${h}</strong> — ${desc}${present?'':' (missing or weak)'}</li>`;
+      });
+      let leaks='';
+      ['server','x-powered-by','x-aspnet-version'].forEach(h=>{
+        if(hdrs[h])leaks+=`<li class="bad"><strong>${h}: ${hdrs[h]}</strong> — version disclosure, consider removing</li>`;
+      });
+      const grades=[['F','var(--tk-red)'],['E','var(--tk-red)'],['D','var(--tk-amber)'],['C','var(--tk-amber)'],['B','#c8e64c'],['A','var(--tk-green)'],['A+','var(--tk-green)']];
+      const [g,c]=grades[pass];
+      box.innerHTML=`<div class="grade" style="color:${c};border-color:${c}">${g}</div>
+        <div class="meter-label">${pass}/6 security headers configured correctly</div>
+        <ul class="checks">${rows}${leaks}</ul>`;
+    });
+
+    /* =============== directory data =============== */
+    const TOOLS=[
+     // network
+     ['network','Nmap','Network discovery & port scanning — the industry standard mapper.','https://nmap.org'],
+     ['network','Wireshark','Deep packet inspection and protocol analysis with a powerful GUI.','https://www.wireshark.org'],
+     ['network','Zeek','Network security monitor that turns traffic into rich, searchable logs.','https://zeek.org'],
+     ['network','Snort','Signature-based intrusion detection & prevention system.','https://www.snort.org'],
+     ['network','Suricata','High-performance IDS/IPS with multi-threading and file extraction.','https://suricata.io'],
+     // pentest
+     ['pentest','Metasploit Framework','Exploitation framework for authorized penetration testing.','https://www.metasploit.com'],
+     ['pentest','OWASP ZAP','Free web app scanner — the open-source alternative to Burp Pro.','https://www.zaproxy.org'],
+     ['pentest','Burp Suite Community','Intercepting proxy for manual web application testing.','https://portswigger.net/burp/communitydownload'],
+     ['pentest','SQLmap','Automated SQL injection detection and exploitation.','https://sqlmap.org'],
+     ['pentest','Nikto','Web server scanner for outdated software and dangerous files.','https://cirt.net/Nikto2'],
+     ['pentest','Nuclei','Template-based vulnerability scanner with a huge community library.','https://github.com/projectdiscovery/nuclei'],
+     // passwords
+     ['passwords','John the Ripper','Classic password cracker for authorized audits & recovery.','https://www.openwall.com/john/'],
+     ['passwords','Hashcat','GPU-accelerated password recovery supporting 300+ hash types.','https://hashcat.net/hashcat/'],
+     ['passwords','KeePassXC','Offline, open-source password manager — recommend it to every client.','https://keepassxc.org'],
+     ['passwords','Bitwarden','Open-source password manager with free cloud sync.','https://bitwarden.com'],
+     // dfir
+     ['dfir','Autopsy','Full digital forensics platform built on The Sleuth Kit.','https://www.autopsy.com'],
+     ['dfir','Volatility 3','Memory forensics framework for RAM analysis.','https://volatilityfoundation.org'],
+     ['dfir','Velociraptor','Endpoint visibility, DFIR hunting and monitoring at scale.','https://docs.velociraptor.app'],
+     ['dfir','CyberChef','The "cyber Swiss-army knife" — encode, decode, parse, carve in-browser.','https://gchq.github.io/CyberChef/'],
+     // defense
+     ['defense','Wazuh','Free SIEM/XDR platform — log analysis, FIM, vulnerability detection.','https://wazuh.com'],
+     ['defense','Security Onion','Complete NSM/SIEM distro bundling Suricata, Zeek and Elastic.','https://securityonionsolutions.com'],
+     ['defense','pfSense CE','Open-source firewall & router platform.','https://www.pfsense.org'],
+     ['defense','Greenbone (OpenVAS)','Full-featured open-source vulnerability scanner.','https://www.greenbone.net/en/testnow/'],
+     ['defense','OSSEC','Host-based intrusion detection with log analysis and rootkit checks.','https://www.ossec.net'],
+     // osint
+     ['osint','theHarvester','Gathers emails, subdomains and hosts from public sources.','https://github.com/laramies/theHarvester'],
+     ['osint','SpiderFoot','Automated OSINT collection across 200+ data sources.','https://github.com/smicallef/spiderfoot'],
+     ['osint','Shodan','Search engine for internet-exposed devices (free tier).','https://www.shodan.io'],
+     ['osint','Have I Been Pwned','Check if an email appears in known data breaches.','https://haveibeenpwned.com'],
+     ['osint','VirusTotal','Multi-engine file, URL and hash reputation analysis.','https://www.virustotal.com'],
+     // platforms
+     ['platform','Kali Linux','The standard pentesting distro with 600+ preinstalled tools.','https://www.kali.org'],
+     ['platform','Parrot Security OS','Lightweight security distro for pentesting and privacy.','https://parrotsec.org'],
+     ['platform','REMnux','Linux toolkit for reverse-engineering and malware analysis.','https://remnux.org'],
+     ['platform','SIFT Workstation','SANS forensics VM packed with DFIR tooling.','https://www.sans.org/tools/sift-workstation/']
+    ];
+    const CATS={network:'Network',pentest:'Pentest',passwords:'Passwords',dfir:'DFIR',defense:'Defense / SIEM',osint:'OSINT',platform:'Platform'};
+    function renderDir(cat){
+      $('dir-grid').innerHTML=TOOLS.filter(t=>cat==='all'||t[0]===cat).map(([c,n,d,u])=>`
+        <div class="tk-card"><div class="cat">${CATS[c]}</div><h3>${n}</h3><p>${d}</p>
+        <a href="${u}" target="_blank" rel="noopener noreferrer">${new URL(u).hostname.replace('www.','')}</a></div>`).join('');
+    }
+    renderDir('all');
+    document.querySelectorAll('#dir-filters button').forEach(b=>{
+      b.addEventListener('click',()=>{
+        document.querySelectorAll('#dir-filters button').forEach(x=>x.classList.remove('active'));
+        b.classList.add('active');renderDir(b.dataset.cat);
+      });
+    });
+    })();
+    </script>
+</body>
+</html>
