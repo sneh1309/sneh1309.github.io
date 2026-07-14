@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Free open-source security tools by Sneh Patel — password analyzer, hash generator, subnet calculator, JWT decoder and more. All tools run locally in your browser.">
+<title>Security Tools | Sneh Patel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0e14;
+  --bg-panel:#0f1520;
+  --bg-input:#0c111b;
+  --border:#1d2735;
+  --border-bright:#2a3a50;
+  --green:#00ff9c;
+  --green-dim:#00c97b;
+  --amber:#ffb454;
+  --red:#ff5566;
+  --cyan:#59d7ff;
+  --text:#c9d4e3;
+  --text-dim:#7a8aa0;
+  --mono:'JetBrains Mono',Consolas,Menlo,monospace;
+  --sans:'Inter',system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.6;min-height:100vh}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,255,156,.015) 0 1px,transparent 1px 3px);z-index:9999}
+a{color:var(--green);text-decoration:none}
+a:hover{text-decoration:underline}
+code,.mono{font-family:var(--mono)}
+::selection{background:var(--green);color:var(--bg)}
+button{font-family:var(--mono)}
+input,textarea,select{font-family:var(--mono);color:var(--text)}
+:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+
+/* ---------- layout ---------- */
+.wrap{max-width:1100px;margin:0 auto;padding:0 24px}
+header.site{position:sticky;top:0;background:rgba(10,14,20,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);z-index:100}
+header.site .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+.logo{font-family:var(--mono);font-weight:700;color:var(--green);font-size:18px;letter-spacing:1px}
+nav a{font-family:var(--mono);font-size:13px;color:var(--text-dim);margin-left:22px}
+nav a:hover,nav a.active{color:var(--green);text-decoration:none}
+
+.hero{padding:72px 0 48px;border-bottom:1px solid var(--border)}
+.prompt-line{font-family:var(--mono);color:var(--text-dim);font-size:14px;margin-bottom:14px}
+.prompt-line .dollar{color:var(--green)}
+h1{font-family:var(--mono);font-size:clamp(28px,5vw,44px);color:#fff;letter-spacing:1px}
+h1 .accent{color:var(--green)}
+.hero p.sub{max-width:640px;margin-top:14px;color:var(--text-dim)}
+.local-badge{display:inline-flex;align-items:center;gap:8px;margin-top:20px;font-family:var(--mono);font-size:12px;color:var(--green-dim);border:1px solid var(--border-bright);padding:6px 12px;border-radius:4px;background:var(--bg-panel)}
+.local-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green)}
+
+section{padding:56px 0}
+h2.sec{font-family:var(--mono);font-size:22px;color:#fff;margin-bottom:6px}
+h2.sec::before{content:"[ ";color:var(--green)}
+h2.sec::after{content:" ]";color:var(--green)}
+.sec-sub{color:var(--text-dim);font-size:14px;margin-bottom:28px}
+
+/* ---------- terminal window ---------- */
+.term{background:var(--bg-panel);border:1px solid var(--border);border-radius:8px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.4)}
+.term-bar{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#0c1119;border-bottom:1px solid var(--border)}
+.term-bar .dot{width:11px;height:11px;border-radius:50%}
+.term-bar .d1{background:#ff5f57}.term-bar .d2{background:#febc2e}.term-bar .d3{background:#28c840}
+.term-bar .title{margin-left:8px;font-family:var(--mono);font-size:12px;color:var(--text-dim)}
+
+/* ---------- tool tabs ---------- */
+.tool-tabs{display:flex;flex-wrap:wrap;gap:0;border-bottom:1px solid var(--border);background:#0c1119}
+.tool-tabs button{background:none;border:none;border-right:1px solid var(--border);padding:11px 16px;font-size:12.5px;color:var(--text-dim);cursor:pointer;white-space:nowrap}
+.tool-tabs button:hover{color:var(--text);background:rgba(0,255,156,.04)}
+.tool-tabs button.active{color:var(--green);background:var(--bg-panel);box-shadow:inset 0 -2px 0 var(--green)}
+.tool-pane{display:none;padding:26px}
+.tool-pane.active{display:block}
+.tool-pane .cmd{font-family:var(--mono);font-size:13px;color:var(--text-dim);margin-bottom:18px}
+.tool-pane .cmd .dollar{color:var(--green)}
+
+label.f{display:block;font-family:var(--mono);font-size:12px;color:var(--text-dim);margin:14px 0 6px;letter-spacing:.5px;text-transform:uppercase}
+input[type=text],input[type=password],input[type=number],textarea,select{
+  width:100%;background:var(--bg-input);border:1px solid var(--border);border-radius:5px;
+  padding:10px 12px;font-size:14px;transition:border-color .15s}
+input:focus,textarea:focus,select:focus{border-color:var(--green);outline:none}
+textarea{resize:vertical;min-height:96px}
+.btn{display:inline-block;background:transparent;border:1px solid var(--green);color:var(--green);
+  padding:9px 20px;border-radius:5px;font-size:13px;cursor:pointer;margin-top:16px;transition:all .15s}
+.btn:hover{background:var(--green);color:var(--bg)}
+.btn.ghost{border-color:var(--border-bright);color:var(--text-dim)}
+.btn.ghost:hover{border-color:var(--text-dim);background:transparent;color:var(--text)}
+.row{display:flex;gap:16px;flex-wrap:wrap}
+.row>div{flex:1;min-width:200px}
+.out{margin-top:18px;background:var(--bg-input);border:1px solid var(--border);border-left:3px solid var(--green);
+  border-radius:5px;padding:14px 16px;font-family:var(--mono);font-size:13px;white-space:pre-wrap;word-break:break-all;display:none}
+.out.show{display:block}
+.out.err{border-left-color:var(--red);color:var(--red)}
+.checks{list-style:none;margin-top:14px;font-family:var(--mono);font-size:13px}
+.checks li{padding:3px 0}
+.checks .ok::before{content:"[✓] ";color:var(--green)}
+.checks .bad::before{content:"[✗] ";color:var(--red)}
+.meter{height:8px;background:var(--bg-input);border:1px solid var(--border);border-radius:4px;margin-top:16px;overflow:hidden}
+.meter>div{height:100%;width:0;transition:width .3s,background .3s}
+.meter-label{font-family:var(--mono);font-size:12px;margin-top:6px;color:var(--text-dim)}
+.copy-wrap{position:relative}
+.copy-btn{position:absolute;top:8px;right:8px;background:var(--bg-panel);border:1px solid var(--border-bright);
+  color:var(--text-dim);font-size:11px;padding:4px 10px;border-radius:4px;cursor:pointer}
+.copy-btn:hover{color:var(--green);border-color:var(--green)}
+.opts{display:flex;gap:18px;flex-wrap:wrap;margin-top:10px;font-family:var(--mono);font-size:13px}
+.opts label{display:flex;align-items:center;gap:7px;cursor:pointer;color:var(--text)}
+.opts input[type=checkbox]{accent-color:var(--green);width:15px;height:15px}
+table.kv{width:100%;border-collapse:collapse;margin-top:16px;font-family:var(--mono);font-size:13px}
+table.kv td{padding:8px 12px;border-bottom:1px solid var(--border)}
+table.kv td:first-child{color:var(--text-dim);width:200px}
+table.kv td:last-child{color:var(--green)}
+.grade{display:inline-block;font-family:var(--mono);font-weight:700;font-size:22px;border:2px solid;border-radius:6px;padding:4px 16px;margin-top:14px}
+
+/* ---------- directory ---------- */
+.dir-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:26px}
+.dir-filters button{background:transparent;border:1px solid var(--border-bright);color:var(--text-dim);
+  font-size:12px;padding:6px 14px;border-radius:20px;cursor:pointer}
+.dir-filters button:hover{color:var(--text);border-color:var(--text-dim)}
+.dir-filters button.active{color:var(--bg);background:var(--green);border-color:var(--green)}
+.dir-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.card{background:var(--bg-panel);border:1px solid var(--border);border-radius:8px;padding:18px;
+  transition:border-color .15s,transform .15s;display:flex;flex-direction:column}
+.card:hover{border-color:var(--green-dim);transform:translateY(-2px)}
+.card .cat{font-family:var(--mono);font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:var(--cyan);margin-bottom:8px}
+.card h3{font-family:var(--mono);font-size:15px;color:#fff;margin-bottom:6px}
+.card p{font-size:13px;color:var(--text-dim);flex:1}
+.card a{font-family:var(--mono);font-size:12px;margin-top:12px;display:inline-block}
+.card a::before{content:"→ ";color:var(--green)}
+
+footer{border-top:1px solid var(--border);padding:32px 0;text-align:center;font-family:var(--mono);font-size:12px;color:var(--text-dim)}
+footer .g{color:var(--green)}
+@media(max-width:640px){
+  nav a{margin-left:14px;font-size:12px}
+  .tool-pane{padding:18px}
+  table.kv td:first-child{width:130px}
+}
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="logo" href="index.html">SP</a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="index.html#projects">Projects</a>
+      <a href="tools.html" class="active">Tools</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="prompt-line"><span class="dollar">$</span> ls /usr/share/security-tools/ <span style="opacity:.6">--free --open-source</span></div>
+    <h1>SECURITY <span class="accent">TOOLKIT</span></h1>
+    <p class="sub">Free browser-based security utilities plus a curated directory of the open-source tools I use and recommend. No accounts, no limits, no tracking.</p>
+    <div class="local-badge"><span class="dot"></span> ALL INTERACTIVE TOOLS RUN 100% IN YOUR BROWSER — NOTHING IS SENT TO ANY SERVER</div>
+  </div>
+</div>
+
+<!-- ============ INTERACTIVE TOOLS ============ -->
+<section id="interactive">
+  <div class="wrap">
+    <h2 class="sec">Interactive Tools</h2>
+    <p class="sec-sub">Client-side utilities for everyday security work. Open your browser's dev tools if you want to verify — zero network requests are made.</p>
+
+    <div class="term">
+      <div class="term-bar">
+        <span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span>
+        <span class="title">sneh@toolkit: ~/tools</span>
+      </div>
+      <div class="tool-tabs" role="tablist">
+        <button class="active" data-pane="p-pass" role="tab">passwd-check</button>
+        <button data-pane="p-gen" role="tab">passwd-gen</button>
+        <button data-pane="p-hash" role="tab">hash</button>
+        <button data-pane="p-enc" role="tab">encode</button>
+        <button data-pane="p-subnet" role="tab">subnet</button>
+        <button data-pane="p-jwt" role="tab">jwt-decode</button>
+        <button data-pane="p-headers" role="tab">headers</button>
+      </div>
+
+      <!-- Password strength -->
+      <div class="tool-pane active" id="p-pass">
+        <div class="cmd"><span class="dollar">$</span> ./passwd-check — analyze password strength &amp; estimated crack time</div>
+        <label class="f" for="pw-in">Password to analyze</label>
+        <input type="text" id="pw-in" placeholder="Type or paste a password..." autocomplete="off" spellcheck="false">
+        <div class="meter"><div id="pw-bar"></div></div>
+        <div class="meter-label" id="pw-verdict">Waiting for input…</div>
+        <ul class="checks" id="pw-checks"></ul>
+        <div class="out" id="pw-out"></div>
+      </div>
+
+      <!-- Password generator -->
+      <div class="tool-pane" id="p-gen">
+        <div class="cmd"><span class="dollar">$</span> ./passwd-gen — cryptographically secure password generator</div>
+        <div class="row">
+          <div>
+            <label class="f" for="gen-len">Length: <span id="gen-len-val">20</span></label>
+            <input type="range" id="gen-len" min="8" max="64" value="20" style="width:100%;accent-color:var(--green)">
+          </div>
+        </div>
+        <div class="opts">
+          <label><input type="checkbox" id="gen-lower" checked> a-z</label>
+          <label><input type="checkbox" id="gen-upper" checked> A-Z</label>
+          <label><input type="checkbox" id="gen-digit" checked> 0-9</label>
+          <label><input type="checkbox" id="gen-sym" checked> !@#$%</label>
+          <label><input type="checkbox" id="gen-amb"> exclude ambiguous (O0Il1)</label>
+        </div>
+        <button class="btn" id="gen-btn">Generate</button>
+        <div class="copy-wrap"><div class="out" id="gen-out"></div><button class="copy-btn" id="gen-copy" style="display:none">copy</button></div>
+      </div>
+
+      <!-- Hash generator -->
+      <div class="tool-pane" id="p-hash">
+        <div class="cmd"><span class="dollar">$</span> ./hash — generate SHA digests (Web Crypto API)</div>
+        <label class="f" for="hash-in">Input text</label>
+        <textarea id="hash-in" placeholder="Text to hash..."></textarea>
+        <button class="btn" id="hash-btn">Compute hashes</button>
+        <div class="out" id="hash-out"></div>
+      </div>
+
+      <!-- Encoder / decoder -->
+      <div class="tool-pane" id="p-enc">
+        <div class="cmd"><span class="dollar">$</span> ./encode — Base64 / Hex / URL encoding &amp; decoding</div>
+        <div class="row">
+          <div>
+            <label class="f" for="enc-mode">Format</label>
+            <select id="enc-mode">
+              <option value="b64">Base64</option>
+              <option value="hex">Hex</option>
+              <option value="url">URL</option>
+            </select>
+          </div>
+        </div>
+        <label class="f" for="enc-in">Input</label>
+        <textarea id="enc-in" placeholder="Text to encode or decode..."></textarea>
+        <button class="btn" id="enc-btn">Encode</button>
+        <button class="btn ghost" id="dec-btn">Decode</button>
+        <div class="copy-wrap"><div class="out" id="enc-out"></div></div>
+      </div>
+
+      <!-- Subnet calculator -->
+      <div class="tool-pane" id="p-subnet">
+        <div class="cmd"><span class="dollar">$</span> ./subnet — IPv4 CIDR calculator</div>
+        <label class="f" for="sub-in">IP address / prefix (CIDR)</label>
+        <input type="text" id="sub-in" placeholder="192.168.1.50/24" spellcheck="false">
+        <button class="btn" id="sub-btn">Calculate</button>
+        <div id="sub-out"></div>
+      </div>
+
+      <!-- JWT decoder -->
+      <div class="tool-pane" id="p-jwt">
+        <div class="cmd"><span class="dollar">$</span> ./jwt-decode — inspect JWT header &amp; payload (no signature verification)</div>
+        <label class="f" for="jwt-in">JWT token</label>
+        <textarea id="jwt-in" placeholder="eyJhbGciOi..." spellcheck="false"></textarea>
+        <button class="btn" id="jwt-btn">Decode</button>
+        <div class="out" id="jwt-out"></div>
+      </div>
+
+      <!-- Header analyzer -->
+      <div class="tool-pane" id="p-headers">
+        <div class="cmd"><span class="dollar">$</span> ./headers — grade HTTP security headers (paste from <code>curl -I yoursite.com</code> or DevTools → Network)</div>
+        <label class="f" for="hdr-in">Raw response headers</label>
+        <textarea id="hdr-in" style="min-height:140px" placeholder="HTTP/2 200
+content-type: text/html
+strict-transport-security: max-age=31536000
+x-frame-options: DENY
+..."></textarea>
+        <button class="btn" id="hdr-btn">Analyze</button>
+        <div id="hdr-out"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DIRECTORY ============ -->
+<section id="directory" style="border-top:1px solid var(--border)">
+  <div class="wrap">
+    <h2 class="sec">Open-Source Tool Directory</h2>
+    <p class="sec-sub">Battle-tested free tools, organized the way a security workflow actually runs. All links go to official project pages.</p>
+    <div class="dir-filters" id="dir-filters">
+      <button class="active" data-cat="all">All</button>
+      <button data-cat="network">Network</button>
+      <button data-cat="pentest">Pentest</button>
+      <button data-cat="passwords">Passwords</button>
+      <button data-cat="dfir">DFIR</button>
+      <button data-cat="defense">Defense / SIEM</button>
+      <button data-cat="osint">OSINT</button>
+      <button data-cat="platform">Platforms</button>
+    </div>
+    <div class="dir-grid" id="dir-grid"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span class="g">$</span> echo "© 2026 Sneh Patel — Securing the digital world." <br><br>
+    <a href="index.html">← Back to portfolio</a>
+  </div>
+</footer>
+
+<script>
+/* =============== tabs =============== */
+document.querySelectorAll('.tool-tabs button').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.tool-tabs button').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.tool-pane').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    document.getElementById(b.dataset.pane).classList.add('active');
+  });
+});
+
+/* =============== helpers =============== */
+const $=id=>document.getElementById(id);
+function showOut(el,txt,isErr=false){el.textContent=txt;el.classList.add('show');el.classList.toggle('err',!!isErr);}
+
+/* =============== 1. password strength =============== */
+const COMMON=['password','123456','12345678','qwerty','abc123','letmein','admin','welcome','iloveyou','monkey','dragon','football','baseball','sunshine','princess','master','shadow','superman','password1','p@ssw0rd'];
+$('pw-in').addEventListener('input',()=>{
+  const pw=$('pw-in').value;
+  const bar=$('pw-bar'),verdict=$('pw-verdict'),list=$('pw-checks'),out=$('pw-out');
+  if(!pw){bar.style.width='0';verdict.textContent='Waiting for input…';list.innerHTML='';out.classList.remove('show');return;}
+  let charset=0;
+  if(/[a-z]/.test(pw))charset+=26;
+  if(/[A-Z]/.test(pw))charset+=26;
+  if(/[0-9]/.test(pw))charset+=10;
+  if(/[^a-zA-Z0-9]/.test(pw))charset+=33;
+  const entropy=pw.length*Math.log2(charset||1);
+  const isCommon=COMMON.includes(pw.toLowerCase());
+  const checks=[
+    [pw.length>=12,'At least 12 characters ('+pw.length+')'],
+    [/[a-z]/.test(pw)&&/[A-Z]/.test(pw),'Mixed upper & lower case'],
+    [/[0-9]/.test(pw),'Contains numbers'],
+    [/[^a-zA-Z0-9]/.test(pw),'Contains symbols'],
+    [!/(.)\1{2,}/.test(pw),'No repeated characters (aaa)'],
+    [!/(?:012|123|234|345|456|567|678|789|abc|qwe|asd)/i.test(pw),'No obvious sequences'],
+    [!isCommon,'Not in common-password list']
+  ];
+  list.innerHTML=checks.map(([ok,t])=>`<li class="${ok?'ok':'bad'}">${t}</li>`).join('');
+  let score=isCommon?0:Math.min(100,Math.round(entropy/1.28));
+  const levels=[[25,'var(--red)','WEAK — crackable in seconds'],[50,'var(--amber)','FAIR — vulnerable to offline attacks'],[75,'#c8e64c','GOOD — reasonable for most accounts'],[101,'var(--green)','STRONG — resistant to brute force']];
+  const [_,color,label]=levels.find(l=>score<l[0]);
+  bar.style.width=score+'%';bar.style.background=color;
+  verdict.textContent='['+score+'/100] '+label;
+  // crack time @ 1e10 guesses/sec (offline GPU rig)
+  const guesses=Math.pow(2,entropy)/2;
+  const secs=guesses/1e10;
+  let t;
+  if(isCommon)t='instant (dictionary hit)';
+  else if(secs<1)t='< 1 second';
+  else if(secs<3600)t=Math.round(secs/60)+' minutes';
+  else if(secs<86400)t=Math.round(secs/3600)+' hours';
+  else if(secs<31536000)t=Math.round(secs/86400)+' days';
+  else if(secs<31536000*1e6)t=Math.round(secs/31536000).toLocaleString()+' years';
+  else t=(secs/31536000).toExponential(1)+' years';
+  showOut(out,`entropy      : ${entropy.toFixed(1)} bits\ncharset size : ${charset}\ncrack time   : ~${t}  (offline, 10 billion guesses/sec)\n\n[i] Analysis is local-only. This password never left your browser.`);
+});
+
+/* =============== 2. password generator =============== */
+$('gen-len').addEventListener('input',()=>$('gen-len-val').textContent=$('gen-len').value);
+$('gen-btn').addEventListener('click',()=>{
+  let pool='';
+  const AMB='O0Il1';
+  if($('gen-lower').checked)pool+='abcdefghijklmnopqrstuvwxyz';
+  if($('gen-upper').checked)pool+='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  if($('gen-digit').checked)pool+='0123456789';
+  if($('gen-sym').checked)pool+='!@#$%^&*()-_=+[]{};:,.<>?';
+  if($('gen-amb').checked)pool=[...pool].filter(c=>!AMB.includes(c)).join('');
+  if(!pool){showOut($('gen-out'),'error: select at least one character set',true);return;}
+  const len=+$('gen-len').value;
+  const rnd=new Uint32Array(len);crypto.getRandomValues(rnd);
+  const pw=[...rnd].map(n=>pool[n%pool.length]).join('');
+  showOut($('gen-out'),pw);
+  $('gen-copy').style.display='block';
+});
+$('gen-copy').addEventListener('click',async()=>{
+  await navigator.clipboard.writeText($('gen-out').textContent);
+  $('gen-copy').textContent='copied ✓';setTimeout(()=>$('gen-copy').textContent='copy',1500);
+});
+
+/* =============== 3. hash generator =============== */
+$('hash-btn').addEventListener('click',async()=>{
+  const txt=$('hash-in').value;
+  if(!txt){showOut($('hash-out'),'error: input is empty',true);return;}
+  const data=new TextEncoder().encode(txt);
+  const algos=['SHA-1','SHA-256','SHA-384','SHA-512'];
+  const lines=[];
+  for(const a of algos){
+    const buf=await crypto.subtle.digest(a,data);
+    const hex=[...new Uint8Array(buf)].map(b=>b.toString(16).padStart(2,'0')).join('');
+    lines.push(a.padEnd(9)+': '+hex);
+  }
+  lines.push('\n[i] MD5 is omitted intentionally — it is cryptographically broken.');
+  showOut($('hash-out'),lines.join('\n'));
+});
+
+/* =============== 4. encoder / decoder =============== */
+function b64enc(s){return btoa(String.fromCharCode(...new TextEncoder().encode(s)));}
+function b64dec(s){return new TextDecoder().decode(Uint8Array.from(atob(s.trim()),c=>c.charCodeAt(0)));}
+function hexenc(s){return [...new TextEncoder().encode(s)].map(b=>b.toString(16).padStart(2,'0')).join('');}
+function hexdec(s){s=s.replace(/\s+/g,'');if(s.length%2||/[^0-9a-f]/i.test(s))throw new Error('invalid hex');
+  return new TextDecoder().decode(new Uint8Array(s.match(/../g).map(h=>parseInt(h,16))));}
+function runEnc(decode){
+  const mode=$('enc-mode').value,inp=$('enc-in').value,out=$('enc-out');
+  if(!inp){showOut(out,'error: input is empty',true);return;}
+  try{
+    let r;
+    if(mode==='b64')r=decode?b64dec(inp):b64enc(inp);
+    else if(mode==='hex')r=decode?hexdec(inp):hexenc(inp);
+    else r=decode?decodeURIComponent(inp):encodeURIComponent(inp);
+    showOut(out,r);
+  }catch(e){showOut(out,'error: could not '+(decode?'decode':'encode')+' — '+e.message,true);}
+}
+$('enc-btn').addEventListener('click',()=>runEnc(false));
+$('dec-btn').addEventListener('click',()=>runEnc(true));
+
+/* =============== 5. subnet calculator =============== */
+$('sub-btn').addEventListener('click',()=>{
+  const v=$('sub-in').value.trim(),box=$('sub-out');
+  const m=v.match(/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})\/(\d{1,2})$/);
+  const err=t=>box.innerHTML=`<div class="out show err">error: ${t}</div>`;
+  if(!m)return err('expected format like 192.168.1.50/24');
+  const oct=m.slice(1,5).map(Number),cidr=+m[5];
+  if(oct.some(o=>o>255))return err('octet out of range (0-255)');
+  if(cidr>32)return err('prefix must be 0-32');
+  const ip=(oct[0]<<24|oct[1]<<16|oct[2]<<8|oct[3])>>>0;
+  const mask=cidr===0?0:(0xFFFFFFFF<<(32-cidr))>>>0;
+  const net=(ip&mask)>>>0, bcast=(net|~mask)>>>0;
+  const fmt=n=>[n>>>24,n>>>16&255,n>>>8&255,n&255].join('.');
+  const hosts=cidr>=31?(cidr===31?2:1):Math.pow(2,32-cidr)-2;
+  const first=cidr>=31?net:net+1, last=cidr>=31?bcast:bcast-1;
+  const cls=oct[0]<128?'A':oct[0]<192?'B':oct[0]<224?'C':oct[0]<240?'D (multicast)':'E (reserved)';
+  const priv=(oct[0]===10)||(oct[0]===172&&oct[1]>=16&&oct[1]<=31)||(oct[0]===192&&oct[1]===168);
+  box.innerHTML=`<table class="kv">
+    <tr><td>Network address</td><td>${fmt(net)}/${cidr}</td></tr>
+    <tr><td>Subnet mask</td><td>${fmt(mask)}</td></tr>
+    <tr><td>Wildcard mask</td><td>${fmt(~mask>>>0)}</td></tr>
+    <tr><td>Broadcast</td><td>${fmt(bcast)}</td></tr>
+    <tr><td>Host range</td><td>${fmt(first)} — ${fmt(last)}</td></tr>
+    <tr><td>Usable hosts</td><td>${hosts.toLocaleString()}</td></tr>
+    <tr><td>Address class</td><td>${cls}</td></tr>
+    <tr><td>Scope</td><td>${priv?'Private (RFC 1918)':'Public'}</td></tr>
+  </table>`;
+});
+$('sub-in').addEventListener('keydown',e=>{if(e.key==='Enter')$('sub-btn').click();});
+
+/* =============== 6. JWT decoder =============== */
+$('jwt-btn').addEventListener('click',()=>{
+  const t=$('jwt-in').value.trim(),out=$('jwt-out');
+  const parts=t.split('.');
+  if(parts.length!==3){showOut(out,'error: a JWT has exactly 3 dot-separated parts (header.payload.signature)',true);return;}
+  const b64u=s=>{s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';return b64dec(s);};
+  try{
+    const header=JSON.parse(b64u(parts[0])), payload=JSON.parse(b64u(parts[1]));
+    let extra='';
+    if(payload.exp){
+      const d=new Date(payload.exp*1000);
+      extra+='\n[i] exp = '+d.toUTCString()+(d<new Date()?'  ← TOKEN EXPIRED':'  (valid)');
+    }
+    if(payload.iat)extra+='\n[i] iat = '+new Date(payload.iat*1000).toUTCString();
+    if(header.alg==='none')extra+='\n[!] alg:none — this token has NO signature protection';
+    showOut(out,'// HEADER\n'+JSON.stringify(header,null,2)+'\n\n// PAYLOAD\n'+JSON.stringify(payload,null,2)+'\n'+extra+'\n\n[i] Signature is NOT verified — this tool only decodes. Decoded locally; token never left your browser.');
+  }catch(e){showOut(out,'error: invalid Base64URL or JSON in token',true);}
+});
+
+/* =============== 7. security headers analyzer =============== */
+$('hdr-btn').addEventListener('click',()=>{
+  const raw=$('hdr-in').value,box=$('hdr-out');
+  if(!raw.trim()){box.innerHTML='<div class="out show err">error: paste response headers first</div>';return;}
+  const hdrs={};
+  raw.split(/\r?\n/).forEach(l=>{const i=l.indexOf(':');if(i>0)hdrs[l.slice(0,i).trim().toLowerCase()]=l.slice(i+1).trim();});
+  const tests=[
+    ['strict-transport-security','HSTS — forces HTTPS',v=>/max-age=\d{6,}/.test(v)],
+    ['content-security-policy','CSP — mitigates XSS & injection',v=>!!v],
+    ['x-content-type-options','Prevents MIME sniffing',v=>/nosniff/i.test(v)],
+    ['x-frame-options','Clickjacking protection',v=>/deny|sameorigin/i.test(v)],
+    ['referrer-policy','Controls referrer leakage',v=>!!v],
+    ['permissions-policy','Restricts browser features',v=>!!v]
+  ];
+  let pass=0,rows='';
+  tests.forEach(([h,desc,fn])=>{
+    const present=h in hdrs&&fn(hdrs[h]);
+    if(present)pass++;
+    rows+=`<li class="${present?'ok':'bad'}"><strong>${h}</strong> — ${desc}${present?'':' (missing or weak)'}</li>`;
+  });
+  let leaks='';
+  ['server','x-powered-by','x-aspnet-version'].forEach(h=>{
+    if(hdrs[h])leaks+=`<li class="bad"><strong>${h}: ${hdrs[h]}</strong> — version disclosure, consider removing</li>`;
+  });
+  const grades=[['F','var(--red)'],['E','var(--red)'],['D','var(--amber)'],['C','var(--amber)'],['B','#c8e64c'],['A','var(--green)'],['A+','var(--green)']];
+  const [g,c]=grades[pass];
+  box.innerHTML=`<div class="grade" style="color:${c};border-color:${c}">${g}</div>
+    <div class="meter-label">${pass}/6 security headers configured correctly</div>
+    <ul class="checks">${rows}${leaks}</ul>`;
+});
+
+/* =============== directory data =============== */
+const TOOLS=[
+ // network
+ ['network','Nmap','Network discovery & port scanning — the industry standard mapper.','https://nmap.org'],
+ ['network','Wireshark','Deep packet inspection and protocol analysis with a powerful GUI.','https://www.wireshark.org'],
+ ['network','Zeek','Network security monitor that turns traffic into rich, searchable logs.','https://zeek.org'],
+ ['network','Snort','Signature-based intrusion detection & prevention system.','https://www.snort.org'],
+ ['network','Suricata','High-performance IDS/IPS with multi-threading and file extraction.','https://suricata.io'],
+ // pentest
+ ['pentest','Metasploit Framework','Exploitation framework for authorized penetration testing.','https://www.metasploit.com'],
+ ['pentest','OWASP ZAP','Free web app scanner — the open-source alternative to Burp Pro.','https://www.zaproxy.org'],
+ ['pentest','Burp Suite Community','Intercepting proxy for manual web application testing.','https://portswigger.net/burp/communitydownload'],
+ ['pentest','SQLmap','Automated SQL injection detection and exploitation.','https://sqlmap.org'],
+ ['pentest','Nikto','Web server scanner for outdated software and dangerous files.','https://cirt.net/Nikto2'],
+ ['pentest','Nuclei','Template-based vulnerability scanner with a huge community library.','https://github.com/projectdiscovery/nuclei'],
+ // passwords
+ ['passwords','John the Ripper','Classic password cracker for authorized audits & recovery.','https://www.openwall.com/john/'],
+ ['passwords','Hashcat','GPU-accelerated password recovery supporting 300+ hash types.','https://hashcat.net/hashcat/'],
+ ['passwords','KeePassXC','Offline, open-source password manager — recommend it to every client.','https://keepassxc.org'],
+ ['passwords','Bitwarden','Open-source password manager with free cloud sync.','https://bitwarden.com'],
+ // dfir
+ ['dfir','Autopsy','Full digital forensics platform built on The Sleuth Kit.','https://www.autopsy.com'],
+ ['dfir','Volatility 3','Memory forensics framework for RAM analysis.','https://volatilityfoundation.org'],
+ ['dfir','Velociraptor','Endpoint visibility, DFIR hunting and monitoring at scale.','https://docs.velociraptor.app'],
+ ['dfir','CyberChef','The "cyber Swiss-army knife" — encode, decode, parse, carve in-browser.','https://gchq.github.io/CyberChef/'],
+ // defense
+ ['defense','Wazuh','Free SIEM/XDR platform — log analysis, FIM, vulnerability detection.','https://wazuh.com'],
+ ['defense','Security Onion','Complete NSM/SIEM distro bundling Suricata, Zeek and Elastic.','https://securityonionsolutions.com'],
+ ['defense','pfSense CE','Open-source firewall & router platform.','https://www.pfsense.org'],
+ ['defense','Greenbone (OpenVAS)','Full-featured open-source vulnerability scanner.','https://www.greenbone.net/en/testnow/'],
+ ['defense','OSSEC','Host-based intrusion detection with log analysis and rootkit checks.','https://www.ossec.net'],
+ // osint
+ ['osint','theHarvester','Gathers emails, subdomains and hosts from public sources.','https://github.com/laramies/theHarvester'],
+ ['osint','SpiderFoot','Automated OSINT collection across 200+ data sources.','https://github.com/smicallef/spiderfoot'],
+ ['osint','Shodan','Search engine for internet-exposed devices (free tier).','https://www.shodan.io'],
+ ['osint','Have I Been Pwned','Check if an email appears in known data breaches.','https://haveibeenpwned.com'],
+ ['osint','VirusTotal','Multi-engine file, URL and hash reputation analysis.','https://www.virustotal.com'],
+ // platforms
+ ['platform','Kali Linux','The standard pentesting distro with 600+ preinstalled tools.','https://www.kali.org'],
+ ['platform','Parrot Security OS','Lightweight security distro for pentesting and privacy.','https://parrotsec.org'],
+ ['platform','REMnux','Linux toolkit for reverse-engineering and malware analysis.','https://remnux.org'],
+ ['platform','SIFT Workstation','SANS forensics VM packed with DFIR tooling.','https://www.sans.org/tools/sift-workstation/']
+];
+const CATS={network:'Network',pentest:'Pentest',passwords:'Passwords',dfir:'DFIR',defense:'Defense / SIEM',osint:'OSINT',platform:'Platform'};
+function renderDir(cat){
+  $('dir-grid').innerHTML=TOOLS.filter(t=>cat==='all'||t[0]===cat).map(([c,n,d,u])=>`
+    <div class="card"><div class="cat">${CATS[c]}</div><h3>${n}</h3><p>${d}</p>
+    <a href="${u}" target="_blank" rel="noopener noreferrer">${new URL(u).hostname.replace('www.','')}</a></div>`).join('');
+}
+renderDir('all');
+document.querySelectorAll('#dir-filters button').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('#dir-filters button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');renderDir(b.dataset.cat);
+  });
+});
+</script>
+</body>
+</html>
